@@ -11,7 +11,7 @@
 
 #define PAYLOAD_SIZE 1000           // 20 KB payload
 #define RANDOM_STRING_SIZE 999   // Size of each random string
-#define DEFAULT_THREAD_COUNT 11000  // Default thread count
+#define DEFAULT_THREAD_COUNT 1000  // Default thread count
 #define EXPIRY_DATE "2025-3-1"    // Expiry date in YYYY-MM-DD format
 
 typedef struct {

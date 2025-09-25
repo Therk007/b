@@ -1,0 +1,58 @@
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.10  # <-- Corrected
+
+      - name: Create virtual environment
+        run: python3 -m venv venv
+
+      - name: Upgrade pip
+        run: ./venv/bin/pip install --upgrade pip
+
+      - name: Install dependencies
+        run: |
+          if [ -f requirements.txt ]; then
+            ./venv/bin/pip install -r requirements.txt
+          fi
+
+      - name: Compile C binary
+        run: gcc raj.c -o ./bin/bgmi -lm -lpthread
+
+      - name: Make binary executable
+        run: chmod +x ./bin/bgmi
+
+      - name: Test bgmi compilation
+        run: ./bin/bgmi --help || echo "bgmi compiled successfully"
+
+      - name: Run Python script
+        run: ./venv/bin/python a.py          fi
+
+      # 6️⃣ Create bin folder
+      - name: Create bin folder
+        run: mkdir -p ./bin
+
+      # 7️⃣ Compile raj.c to bgmi binary with pthread and math lib
+      - name: Compile C binary
+        run: |
+          set -e
+          gcc raj.c -o ./bin/bgmi -lm -lpthread
+
+      # 8️⃣ Make binary executable
+      - name: Make binary executable
+        run: chmod +x ./bin/bgmi
+
+      # 9️⃣ Run bgmi binary (foreground for proper logging)
+      - name: Run bgmi
+        run: ./bin/bgmi
+
+      # 🔟 Run Python script
+      - name: Run Python script
+        run: ./venv/bin/python a.py

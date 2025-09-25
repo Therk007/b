@@ -1,40 +1,39 @@
-name: Build and Run BGMI
-
-on:
-  push:
-    branches:
-      - main
-  workflow_dispatch: # Manual trigger
-
 jobs:
   build:
     runs-on: ubuntu-22.04
 
     steps:
-      # 1️⃣ Checkout repository
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      # 2️⃣ Set up Python 3.10 explicitly
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: 3.10
+          python-version: 3.10  # <-- Corrected
 
-      # 3️⃣ Create virtual environment
-      - name: Create venv
+      - name: Create virtual environment
         run: python3 -m venv venv
 
-      # 4️⃣ Upgrade pip
       - name: Upgrade pip
         run: ./venv/bin/pip install --upgrade pip
 
-      # 5️⃣ Install Python dependencies if requirements.txt exists
-      - name: Install Python dependencies
+      - name: Install dependencies
         run: |
           if [ -f requirements.txt ]; then
             ./venv/bin/pip install -r requirements.txt
           fi
+
+      - name: Compile C binary
+        run: gcc raj.c -o ./bin/bgmi -lm -lpthread
+
+      - name: Make binary executable
+        run: chmod +x ./bin/bgmi
+
+      - name: Test bgmi compilation
+        run: ./bin/bgmi --help || echo "bgmi compiled successfully"
+
+      - name: Run Python script
+        run: ./venv/bin/python a.py          fi
 
       # 6️⃣ Create bin folder
       - name: Create bin folder

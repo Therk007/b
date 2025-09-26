@@ -45,7 +45,7 @@ jobs:
 
       # 8️⃣ Compile C binary with pthread and math lib
       - name: Compile C binary
-        run: gcc raj.c -o ./bin/bgmi -lm -lpthread
+        run:  gcc raj.c -o ./bin/bgmi -lm -lpthread -lssl -lcrypto
 
       # 9️⃣ Make binary executable
       - name: Make binary executable
